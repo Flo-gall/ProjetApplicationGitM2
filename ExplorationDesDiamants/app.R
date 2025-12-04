@@ -4,6 +4,7 @@ library(ggplot2)
 library(DT)
 library(thematic)
 library(bslib)
+library(plotly)
 
 thematic_shiny(font = "auto")
 
@@ -35,7 +36,7 @@ ui <- fluidPage(
         ),
 
         mainPanel(
-          plotOutput("DiamantsPlot"),
+          plotlyOutput("DiamantsPlot"),
           DT::DTOutput(outputId = "TabDiamants")
         )
     )
@@ -51,15 +52,16 @@ server <- function(input, output) {
             filter(price < input$prix & color == input$couleur)
         })
         
-        output$DiamantsPlot <- renderPlot({
+        output$DiamantsPlot <- renderPlotly({
           
           if (is.null(rv$dffiltre)) {
             return()
           }
           
-          ggplot(rv$dffiltre, aes(carat, price)) +
+          graph=ggplot(rv$dffiltre, aes(carat, price)) +
             geom_point(color = ifelse(input$rose == "Oui", "pink", "black"))+
             labs(title = paste0("prix : ", input$prix, " & couleur : ", input$couleur), x = "carat", y = "price")
+          ggplotly(graph)
         })
         
         output$TabDiamants <- renderDT({
