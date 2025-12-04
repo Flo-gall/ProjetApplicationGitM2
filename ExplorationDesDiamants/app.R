@@ -52,6 +52,13 @@ server <- function(input, output) {
             filter(price < input$prix & color == input$couleur)
         })
         
+        observeEvent(input$visugraph, {
+          message(showNotification(
+            paste0("prix : ", input$prix, " & couleur : ", input$couleur),
+            type = "default"
+          ))
+        })
+        
         output$DiamantsPlot <- renderPlotly({
           
           if (is.null(rv$dffiltre)) {
