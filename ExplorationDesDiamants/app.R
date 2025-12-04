@@ -50,6 +50,11 @@ server <- function(input, output) {
         observeEvent(input$visugraph, {
           rv$dffiltre=diamonds|> 
             filter(price < input$prix & color == input$couleur)
+
+        rv$couleurr=input$couleur
+        rv$rosee=input$rose
+        rv$prixx=input$prix
+        
         })
         
         observeEvent(input$visugraph, {
@@ -66,8 +71,8 @@ server <- function(input, output) {
           }
           
           graph=ggplot(rv$dffiltre, aes(carat, price)) +
-            geom_point(color = ifelse(input$rose == "Oui", "pink", "black"))+
-            labs(title = paste0("prix : ", input$prix, " & couleur : ", input$couleur), x = "carat", y = "price")
+            geom_point(color = ifelse(rv$rosee == "Oui", "pink", "black"))+
+            labs(title = paste0("prix : ", rv$prixx, " & couleur : ", rv$couleurr), x = "carat", y = "price")
           ggplotly(graph)
         })
         
