@@ -52,11 +52,18 @@ server <- function(input, output) {
             filter(price < input$prix & color == input$couleur)
         })
         
-        output$DiamantsPlot = renderPlot({
-          rv$dffiltre|>
-            ggplot(aes(carat,price))+
-            geom_point()
+        output$DiamantsPlot <- renderPlot({
+          
+          if (is.null(rv$dffiltre)) {
+            return()
+          }
+          
+          ggplot(rv$dffiltre, aes(carat, price)) +
+            geom_point(color = ifelse(input$rose == "Oui", "pink", "black"))
         })
+            
+          
+        
 }
 
 # Run the application 
