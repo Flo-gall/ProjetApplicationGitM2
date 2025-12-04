@@ -44,6 +44,9 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
+  
+  rv=reactiveValues(df=NULL)
+  
         output$DiamantsPlot = renderPlot({
           diamonds|>
             ggplot(aes(diamonds$carat,diamonds$price))+
