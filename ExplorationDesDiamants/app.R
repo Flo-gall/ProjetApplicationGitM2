@@ -45,11 +45,16 @@ ui <- fluidPage(
 server <- function(input, output) {
 
   
-  rv=reactiveValues(df=NULL)
-  
+        rv=reactiveValues(df=NULL)
+        
+        observeEvent(input$visugraph, {
+          rv$dffiltre=diamonds|> 
+            filter(price < input$prix & color == input$couleur)
+        })
+        
         output$DiamantsPlot = renderPlot({
-          diamonds|>
-            ggplot(aes(diamonds$carat,diamonds$price))+
+          rv$dffiltre|>
+            ggplot(aes(carat,price))+
             geom_point()
         })
 }
