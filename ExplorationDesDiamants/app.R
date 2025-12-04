@@ -41,7 +41,6 @@ ui <- fluidPage(
     )
 )
 
-# Define server logic required to draw a histogram
 server <- function(input, output) {
 
   
@@ -59,7 +58,8 @@ server <- function(input, output) {
           }
           
           ggplot(rv$dffiltre, aes(carat, price)) +
-            geom_point(color = ifelse(input$rose == "Oui", "pink", "black"))
+            geom_point(color = ifelse(input$rose == "Oui", "pink", "black"))+
+            labs(title = paste0("prix : ", input$prix, "& couleur : ", input$couleur))
         })
             
           
