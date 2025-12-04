@@ -59,7 +59,15 @@ server <- function(input, output) {
           
           ggplot(rv$dffiltre, aes(carat, price)) +
             geom_point(color = ifelse(input$rose == "Oui", "pink", "black"))+
-            labs(title = paste0("prix : ", input$prix, "& couleur : ", input$couleur))
+            labs(title = paste0("prix : ", input$prix, " & couleur : ", input$couleur), x = "carat", y = "price")
+        })
+        
+        output$TabDiamants <- renderDT({
+          
+          if (is.null(rv$dffiltre)) {
+            return()
+          }
+          rv$dffiltre
         })
             
           
