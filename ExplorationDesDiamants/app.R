@@ -7,16 +7,25 @@ library(DT)
 ui <- fluidPage(
 
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel("Exploration des Diamants"),
 
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
+          radioButtons(inputId = "rose", 
+                       label = "Colorier les points en rose ?",
+                       choices = c("Oui", "Non")),
+          selectInput(inputId = "couleur",
+                      label = "Choisir une couleur à filtrer :",
+                      choices = c("D", "E", "F", "G", "H", "I", "J")),
+          sliderInput(inputId = "prix",
+                      label = "Prix maximum :",
+                      min = 3000,
+                      max = 20000,
+                      value = 3000),
+          actionButton(inputId = "visugraph",
+                       label = "Visualiser le graph"
+          )
         ),
 
         # Show a plot of the generated distribution
@@ -31,7 +40,7 @@ server <- function(input, output) {
 
     output$distPlot <- renderPlot({
         # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
+        x    <- diamonds[, 3]
         bins <- seq(min(x), max(x), length.out = input$bins + 1)
 
         # draw the histogram with the specified number of bins
